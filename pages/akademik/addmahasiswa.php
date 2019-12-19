@@ -7,7 +7,7 @@ var x2=document.forms["form1"]["umur"].value;
 var x3=document.forms["form1"]["photo"].value;
 if (x==null || x=="")
   {
-  alert("Isi Nomor Induk mahasiswa");
+  alert("Isi Nomor Induk siswa");
   return false;
   }
 if (x1==null || x1=="")
@@ -33,13 +33,13 @@ ob_start();
 ?>
 <form method="post" class="form-horizontal" name="form1" id="form1" enctype="multipart/form-data" onsubmit="return validateForm()"  />
 <div class="control-group">
-<label class="control-label">Nomor Induk mahasiswa</label>
+<label class="control-label">Nomor Induk siswa</label>
 <div class="controls">
 <input type="text" name="nim" id="nim">
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">Nama mahasiswa</label>
+<label class="control-label">Nama siswa</label>
 <div class="controls">
 <input type="text" name="nama" id="nama" class="input-xlarge">
 </div>
@@ -51,15 +51,15 @@ ob_start();
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">Jurusan</label>
+<label class="control-label">Kelas</label>
 <div class="controls">
 <?php
-$q=mysql_query("Select * from jurusan");
+$q=mysql_query("Select * from kelas");
 while($r=mysql_fetch_array($q))
 {
 ?>
 <select name="jurusan" id="jurusan">
-<option value="<?php echo $r['kode_jurusan']; ?>"><?php echo $r['nama_jurusan']; ?></option>
+<option value="<?php echo $r['kode_kelas']; ?>"><?php echo $r['nama_kelas']; ?></option>
 </select>
 <?php
 }
@@ -83,7 +83,7 @@ while($r=mysql_fetch_array($q))
 if(isset($_POST['simpan']))
 {
 	$eks=$_POST['ext'];
-	$namabaru=$_POST['nim'].".".$eks;		
+	$namabaru=$_POST['nis'].".".$eks;		
 	
 	$upload_dir = $path_web."uploads/mahasiswa/";
 
@@ -95,7 +95,7 @@ if(isset($_POST['simpan']))
 			echo 'Upload directory is not writable, or does not exist.';
 		}
 	}
-	$q=mysql_query("Insert into mahasiswa values ('".$_POST['nim']."','".$_POST['nama']."','".$_POST['umur']."','".$_POST['jurusan']."','".$namabaru."')");
+	$q=mysql_query("Insert into siswa values ('".$_POST['nis']."','".$_POST['nama']."','".$_POST['umur']."','".$_POST['kelas']."','".$namabaru."')");
 	if($q)
 	{
 		echo "<script>alert('Berhasil ditambahkan')</script>";

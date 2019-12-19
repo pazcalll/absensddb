@@ -1,5 +1,5 @@
 <div align="left">
-<h1>Data mahasiswa</h1>
+<h1>Data Siswa</h1>
 </div>
 
 <div align="right">
@@ -9,24 +9,24 @@
 <span class="span4">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
   <tr>
-    <td>Nomor Induk mahasiswa</td>
-    <td>Nama mahasiswa</td>  
+    <td>Nomor Induk siswa</td>
+    <td>Nama siswa</td>  
     <td>Umur</td> 
-    <td>Jurusan</td>
+    <td>Kelas</td>
     <td>Photo</td>      
     <td>&nbsp;</td>
   </tr>
   <?php
-  $rw=mysql_query("SELECT mahasiswa.nim, mahasiswa.nama, mahasiswa.umur, jurusan.nama_jurusan, mahasiswa.photo
-FROM mahasiswa LEFT JOIN jurusan ON mahasiswa.kode_jurusan = jurusan.kode_jurusan");
+  $rw=mysql_query("SELECT siswa.nis, siswa.nama, siswa.umur, kelas.kode_kelas, siswa.photo
+FROM siswa LEFT JOIN kelas ON siswa.kode_kelas = kelas.kode_kelas");
   while($s=mysql_fetch_array($rw))
   {
   ?>
   <tr>
-    <td><?php echo $s['nim']; ?></td>
+    <td><?php echo $s['nis']; ?></td>
     <td><?php echo $s['nama']; ?></td>
     <td><?php echo $s['umur']; ?></td>
-    <td><?php echo $s['nama_jurusan']; ?></td>
+    <td><?php echo $s['kode_kelas']; ?></td>
     <td>  
     <?php if($s['photo']!="")
 	{
@@ -42,7 +42,7 @@ FROM mahasiswa LEFT JOIN jurusan ON mahasiswa.kode_jurusan = jurusan.kode_jurusa
    	
     </td>
 
-    <td><a href="?cat=akademik&page=editmahasiswa&id=<?php echo sha1($s['nim']); ?>">Edit</a> - <a href="?cat=akademik&page=mahasiswa&del=1&id=<?php echo sha1($s['nim']); ?>">Hapus</a></td>
+    <td><a href="?cat=akademik&page=editmahasiswa&id=<?php echo sha1($s['nis']); ?>">Edit</a> - <a href="?cat=akademik&page=mahasiswa&del=1&id=<?php echo sha1($s['nim']); ?>">Hapus</a></td>
   </tr>
   <?php
   }
@@ -53,7 +53,7 @@ FROM mahasiswa LEFT JOIN jurusan ON mahasiswa.kode_jurusan = jurusan.kode_jurusa
 if(isset($_GET['del']))
 {
 	$ids=$_GET['id'];
-	$ff=mysql_query("Delete from mahasiswa Where sha1(nim)='".$ids."'");
+	$ff=mysql_query("Delete from siswa Where sha1(nis)='".$ids."'");
 	if($ff)
 	{
 		echo "<script>window.location='?cat=akademik&page=mahasiswa'</script>";
