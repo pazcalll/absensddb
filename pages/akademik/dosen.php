@@ -1,5 +1,5 @@
 <div align="left">
-<h1>Data Dosen</h1>
+<h1>Data Guru</h1>
 </div>
 
 <div align="right">
@@ -9,26 +9,36 @@
 <span class="span4">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
   <tr>
-    <td>Nomor Induk Dosen</td>
-    <td>Nama Dosen</td>  
+    <td>Nomor Induk Guru</td>
+    <td>Nama Guru</td>  
     <td>Umur</td> 
     <td>Photo</td>      
     <td>&nbsp;</td>
   </tr>
   <?php
-  $rw=mysql_query("Select * from dosen");
-  while($s=mysql_fetch_array($rw))
+
+$host	 = "127.0.0.1";
+$user	 = "root";
+$pass	 = "";
+$dabname = "absensddb";
+
+$foldername="absensddb";
+$conn = mysqli_connect( $host, $user, $pass) or die('Could not connect to mysql server.' );
+mysqli_select_db($conn, $dabname) or die('Could not select database.');
+
+  $rw=mysqli_query($conn, "Select * from Guru");
+  while($s=mysqli_fetch_array($rw))
   {
   ?>
   <tr>
-    <td><?php echo $s['nid']; ?></td>
+    <td><?php echo $s['nip']; ?></td>
     <td><?php echo $s['nama']; ?></td>
     <td><?php echo $s['umur']; ?></td>
     <td>  
     <?php if($s['photo']!="")
 	{
 		?>
-    <img src="<?php echo $baseurl."uploads/dosen/".$s['photo']; ?> " width="50px" height="50px">
+    <img src="<?php echo $baseurl."uploads/guru/".$s['photo']; ?> " width="50px" height="50px">
     <?php
 	}else{
 	?>
@@ -39,7 +49,7 @@
    	
     </td>
 
-    <td><a href="?cat=akademik&page=editdosen&id=<?php echo sha1($s['nid']); ?>">Edit</a> - <a href="?cat=akademik&page=dosen&del=1&id=<?php echo sha1($s['nid']); ?>">Hapus</a></td>
+    <td><a href="?cat=akademik&page=editguru&id=<?php echo sha1($s['nip']); ?>">Edit</a> - <a href="?cat=akademik&page=dosen&del=1&id=<?php echo sha1($s['nid']); ?>">Hapus</a></td>
   </tr>
   <?php
   }
@@ -50,10 +60,10 @@
 if(isset($_GET['del']))
 {
 	$ids=$_GET['id'];
-	$ff=mysql_query("Delete from dosen Where sha1(nid)='".$ids."'");
+	$ff=mysqli_query($conn, "Delete from guru Where sha1(nip)='".$ids."'");
 	if($ff)
 	{
-		echo "<script>window.location='?cat=akademik&page=dosen'</script>";
+		echo "<script>window.location='?cat=akademik&page=guru'</script>";
 	}
 }
 ?>
