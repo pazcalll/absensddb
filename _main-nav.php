@@ -11,12 +11,12 @@
 	?>
     <li class="dropdown"><a href="#"><span class="icon-th-list"></span> Data Master</a>
       <ul>
-        <li><a href="?cat=akademik&page=jurusan">Data Jurusan</a></li>
-        <li><a href="?cat=akademik&page=matkul">Mata Kuliah</a></li>
+       <!--  <li><a href="?cat=akademik&page=jurusan">Data Jurusan</a></li> -->
+        <li><a href="?cat=akademik&page=matkul">Jadwal Pelajaran</a></li>
        <li><a href="?cat=akademik&page=kelas">Data Kelas</a></li>
-       <li><a href="?cat=akademik&page=dosen">Data Dosen</a></li>
-       <li><a href="?cat=akademik&page=mahasiswa">Data Mahasiswa</a></li>
-       <li><a href="?cat=akademik&page=jadwal">Jadwal Kuliah</a></li>
+<!--        <li><a href="?cat=akademik&page=dosen">Data Dosen</a></li> -->
+       <li><a href="?cat=akademik&page=mahasiswa">Data Siswa</a></li>
+       <li><a href="?cat=akademik&page=jadwal">Mata Pelajaran</a></li>
       </ul>
     </li>   
     <li class="dropdown"><a href="#"><span class="icon-pencil"></span> Konfigurasi</a>
