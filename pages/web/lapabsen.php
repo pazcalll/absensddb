@@ -1,27 +1,42 @@
 <?php
+$host	 = "127.0.0.1";
+$user	 = "root";
+$pass	 = "";
+$dabname = "absensddb";
+
+// include '_db.php';
+$foldername="absensddb";
+$conn = mysqli_connect( $host, $user, $pass) or die('Could not connect to mysql server.' );
+mysqli_select_db($conn, $dabname) or die('Could not select database.');
+
+$q=mysqli_query($conn, "Select * from data_absen_siswa");
 require("../../_db.php");
 $smes=$_GET['semester'];
 $bulan=$_GET['blnadd'];
 $matkul=$_GET['matkul'];
 $tipe=$_GET['tipe'];
-if($tipe=="MAHASISWA")
+$tglskrg='2001-01-01';
+$tglakhir='2001-01-01';
+$result=mysqli_query($conn,"SELECT data_absen_siswa.nis, siswa.nama, Kelas.nama_Kelas, mata_pelajaran.nama_mata_pelajaran,count(data_absen_siswa.nis) as Jumlah_Hadir
+FROM (((data_absen_siswa LEFT JOIN jadwal_sekolah ON data_absen_siswa.id_jadwal = jadwal_sekolah.id_jadwal) LEFT JOIN kelas ON jadwal_sekolah.kode_kelas = kelas.kode_kelas) LEFT JOIN mata_pelajaran ON jadwal_sekolah.kode_mata_pelajaran = mata_pelajaran.kode_mata_pelajaran) LEFT JOIN siswa ON data_absen_siswa.nis = siswa.nis Where data_absen_siswa.tgl between '".$tglskrg."' and '".$tglakhir."'");
+if($tipe=="SISWA")
 {
-$q=mysql_query("Select * from data_absen_mhs where kode_mata_kuliah='".$matkul."' and semester='".$smes."' order by tgl ASC") or die(mysql_error());
-}elseif($tipe=="DOSEN")
+$q=mysqli_query($conn,"Select * from data_absen_siswa where kode_mata_pelajaran='".$matkul."' and semester='".$smes."' order by tgl ASC") or die(mysqli_error($conn));
+}elseif($tipe=="GURU")
 {
-	$q=mysql_query("Select * from data_absen_dosen where kode_mata_kuliah='".$matkul."' and semester='".$smes."' order by tgl ASC") or die(mysql_error());
+	$q=mysqli_query($conn,"Select * from data_absen_guru where kode_mata_pelajaran='".$matkul."' and semester='".$smes."' order by tgl ASC") or die(mysqli_error($conn));
 }
-$r=mysql_fetch_array($q);
+$r=mysqli_fetch_array($q);
 $tglskrg=$r['tgl'];
 $tglakhir=date("Y-m-d",strtotime($tglskrg.' + '.$bulan.' months'));
-if($tipe=="MAHASISWA")
+if($tipe=="SISWA")
 {
-$result=mysql_query("SELECT data_absen_mhs.nim, mahasiswa.nama, jurusan.nama_jurusan, mata_kuliah.nama_mata_kuliah,count(data_absen_mhs.nim) as Jumlah_Hadir
-FROM (((data_absen_mhs LEFT JOIN jadwal_kuliah ON data_absen_mhs.id_jadwal = jadwal_kuliah.id_jadwal) LEFT JOIN jurusan ON jadwal_kuliah.kode_jurusan = jurusan.kode_jurusan) LEFT JOIN mata_kuliah ON jadwal_kuliah.kode_mata_kuliah = mata_kuliah.kode_mata_kuliah) LEFT JOIN mahasiswa ON data_absen_mhs.nim = mahasiswa.nim Where data_absen_mhs.tgl between '".$tglskrg."' and '".$tglakhir."'");
-}elseif($tipe=="DOSEN")
+$result=mysqli_query($conn,"SELECT data_absen_siswa.nis, siswa.nama, Kelas.nama_Kelas, mata_pelajaran.nama_mata_pelajaran,count(data_absen_siswa.nis) as Jumlah_Hadir
+FROM (((data_absen_siswa LEFT JOIN jadwal_sekolah ON data_absen_siswa.id_jadwal = jadwal_sekolah.id_jadwal) LEFT JOIN kelas ON jadwal_sekolah.kode_kelas = kelas.kode_kelas) LEFT JOIN mata_pelajaran ON jadwal_sekolah.kode_mata_pelajaran = mata_pelajaran.kode_mata_pelajaran) LEFT JOIN siswa ON data_absen_siswa.nis = siswa.nis Where data_absen_siswa.tgl between '".$tglskrg."' and '".$tglakhir."'");
+}elseif($tipe=="Guru")
 {
-$result=mysql_query("SELECT data_absen_dosen.nid, dosen.nama, jurusan.nama_jurusan, mata_kuliah.nama_mata_kuliah,count(data_absen_dosen.nid) as Jumlah_Hadir
-FROM (((data_absen_dosen LEFT JOIN jadwal_kuliah ON data_absen_dosen.id_jadwal = jadwal_kuliah.id_jadwal) LEFT JOIN jurusan ON jadwal_kuliah.kode_jurusan = jurusan.kode_jurusan) LEFT JOIN mata_kuliah ON jadwal_kuliah.kode_mata_kuliah = mata_kuliah.kode_mata_kuliah) LEFT JOIN dosen ON data_absen_dosen.nid = dosen.nid Where data_absen_dosen.tgl between '".$tglskrg."' and '".$tglakhir."'");
+$result=mysqli_query($conn,"SELECT data_absen_guru.nip, guru.nama, kelas.nama_kelas, mata_pelajaran.nama_mata_pelajaran,count(data_absen_guru.nip) as Jumlah_Hadir
+FROM (((data_absen_guru LEFT JOIN jadwal_sekolah ON data_absen_guru.id_jadwal = jadwal_sekolah.id_jadwal) LEFT JOIN jurusan ON jadwal_sekolah.kode_kelas = kelas.kode_kelas) LEFT JOIN mata_pelajaran ON jadwal_sekolah.kode_mata_pelajaran = mata_pelajaran.kode_mata_pelajaran) LEFT JOIN guru ON data_absen_guru.nip = guru.nip Where data_absen_guru.tgl between '".$tglskrg."' and '".$tglakhir."'");
 }
 
 $filename="LapTengahSemester-".$smes."-".$tipe;
@@ -42,17 +57,17 @@ $sep = "\t";
 
  
 
-for ($i = 0; $i < mysql_num_fields($result); $i++) {
-echo mysql_field_name($result,$i) . "\t";
+for ($i = 0; $i < mysqli_num_fields($result); $i++) {
+echo mysqli_field_seek($result,$i) . "\t";
 }
 print("\n");
 
  
 
-    while($row = mysql_fetch_array($result))
+    while($row = mysqli_fetch_array($result))
     {
         $schema_insert = "";
-        for($j=0; $j<mysql_num_fields($result);$j++)
+        for($j=0; $j<mysqli_num_fields($result);$j++)
         {
             if(!isset($row[$j]))
                 $schema_insert .= "NULL".$sep;

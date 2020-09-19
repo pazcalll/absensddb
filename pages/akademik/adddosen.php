@@ -1,23 +1,23 @@
 <script>
 function validateForm()
 {
-var x=document.forms["form1"]["nid"].value;
+var x=document.forms["form1"]["nis"].value;
 var x1=document.forms["form1"]["nama"].value;
 var x2=document.forms["form1"]["umur"].value;
 var x3=document.forms["form1"]["photo"].value;
 if (x==null || x=="")
   {
-  alert("Isi Nomor Induk Dosen");
+  alert("Isi Nomor Induk Guru");
   return false;
   }
 if (x1==null || x1=="")
   {
-  alert("Isi Nama Dosen");
+  alert("Isi Nama Guru");
   return false;
   }
   if (x2==null || x2=="")
   {
-  alert("Isi Umur Dosen");
+  alert("Isi Umur Guru");
   return false;
   }
   if (x3==null || x3=="")
@@ -33,13 +33,13 @@ ob_start();
 ?>
 <form method="post" class="form-horizontal" name="form1" id="form1" enctype="multipart/form-data" onsubmit="return validateForm()"  />
 <div class="control-group">
-<label class="control-label">Nomor Induk Dosen</label>
+<label class="control-label">Nomor Induk Guru</label>
 <div class="controls">
 <input type="text" name="nid" id="nid">
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">Nama Dosen</label>
+<label class="control-label">Nama Guru</label>
 <div class="controls">
 <input type="text" name="nama" id="nama" class="input-xlarge">
 </div>
@@ -80,7 +80,7 @@ if(isset($_POST['simpan']))
 			echo 'Upload directory is not writable, or does not exist.';
 		}
 	}
-	$q=mysql_query("Insert into dosen values ('".$_POST['nid']."','".$_POST['nama']."','".$_POST['umur']."','".$namabaru."')");
+	$q=mysql_query("Insert into guru values ('".$_POST['nis']."','".$_POST['nama']."','".$_POST['umur']."','".$namabaru."')");
 	if($q)
 	{
 		echo "<script>alert('Berhasil ditambahkan')</script>";

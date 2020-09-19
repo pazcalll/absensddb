@@ -26,10 +26,10 @@
     </li>           
     <li class="dropdown"><a href="#"><span class="icon-pencil"></span> Laporan</a>
       <ul>
-        <li><a href="?cat=akademik&page=laptengah">Laporan per tengah Semester (Mahasiswa)</a></li>
-   <li><a href="?cat=akademik&page=lapfull">Laporan per Semester (Mahasiswa)</a></li>
-     <li><a href="?cat=akademik&page=laptengah2">Laporan per tengah Semester (Dosen)</a></li>
-   <li><a href="?cat=akademik&page=lapfull2">Laporan per Semester (Dosen)</a></li>
+        <li><a href="?cat=akademik&page=laptengah">Laporan per tengah Semester (siswa)</a></li>
+   <li><a href="?cat=akademik&page=lapfull">Laporan per Semester (siswa)</a></li>
+     <li><a href="?cat=akademik&page=laptengah2">Laporan per tengah Semester (Guru)</a></li>
+   <li><a href="?cat=akademik&page=lapfull2">Laporan per Semester (Guru)</a></li>
       </ul>
     </li>        
    <!--MENU PIMPINAN-->
